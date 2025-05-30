@@ -6,12 +6,17 @@ import com.service.product.model.ProductModel;
 import com.service.product.model.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -34,5 +39,18 @@ public class ProductController {
         return ResponseEntity.ok(new APIResponse("Data received", newProduct));
         // return new ResponseEntity<>(new APIresponse("product received!", null),
         // HttpStatus.OK);
+    }
+
+    @GetMapping("/all-products")
+    private ResponseEntity<APIResponse> getAllProducts() {
+        List<ProductModel> products = this.productRepo.findAll();
+        return ResponseEntity.ok(new APIResponse("Data sent!", products));
+    }
+
+    @GetMapping("/product/{productId}")
+    private ResponseEntity<APIResponse> getSoleProduct(@PathVariable String productId) {
+        Optional<ProductModel> product = this.productRepo.findById(productId);
+        ProductModel isProduct = product.isPresent() ? product.get() : null;
+        return ResponseEntity.ok(new APIResponse("Product sent!", isProduct));
     }
 }
