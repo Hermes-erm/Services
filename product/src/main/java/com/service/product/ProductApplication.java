@@ -1,7 +1,5 @@
 package com.service.product;
 
-import com.service.product.model.ProductModel;
-import com.service.product.model.ProductRepo;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -14,9 +12,6 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 public class ProductApplication {
 
     @Autowired
-    private ProductRepo productRepo;
-
-    @Autowired
     private ApplicationContext applicationContext;
 
     public static void main(String[] args) {
@@ -27,7 +22,5 @@ public class ProductApplication {
     public void doSome() {
         MappingMongoConverter mappingMongoConverter = applicationContext.getBean(MappingMongoConverter.class);
         mappingMongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
-        // this.productRepo.save(new ProductModel("Shoe", "nothing to say about it..!",
-        // 4.5f));
     }
 }

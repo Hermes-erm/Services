@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("product")
 public class ProductModel {
     private String productName;
-    private String description;
-    private float rating;
     private int price;
+    private float rating;
+    private String description;
 }
