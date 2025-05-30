@@ -14,4 +14,5 @@ public class ProductModel {
     private int price;
     private float rating;
     private String description;
+    private byte[] image;
 }

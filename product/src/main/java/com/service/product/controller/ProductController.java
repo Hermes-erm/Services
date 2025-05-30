@@ -1,7 +1,9 @@
 package com.service.product.controller;
 
-import java.io.IOException;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.product.DTO.APIResponse;
+import com.service.product.model.ProductModel;
+import com.service.product.model.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,11 +11,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.DTO.APIResponse;
-import com.service.product.model.ProductModel;
-import com.service.product.model.ProductRepo;
+import java.io.IOException;
 
 @RestController
 public class ProductController {
@@ -25,14 +23,15 @@ public class ProductController {
     private ObjectMapper objectMapper;
 
     @PostMapping("/new-product")
-    ResponseEntity<String> postProduct(@RequestPart("productDetails") String product,
-            @RequestPart("productImage") MultipartFile imageFile) throws IOException, JsonProcessingException {
-        // this.productRepo.save(product);
-
+    ResponseEntity<APIResponse> postProduct(@RequestPart("productDetails") String product,
+            @RequestPart("productImage") MultipartFile imageFile) throws IOException {
         ProductModel newProduct = objectMapper.readValue(product, ProductModel.class);
-        // System.err.println(imageFile.getBytes());
+        newProduct.setImage(imageFile.getBytes());
+        this.productRepo.save(newProduct);
 
-        return ResponseEntity.ok("okay");
+        newProduct.setImage(null); // or just use @JsonIgnore or @JsonProperty(access = Access.WRITE_ONLY)!
+
+        return ResponseEntity.ok(new APIResponse("Data received", newProduct));
         // return new ResponseEntity<>(new APIresponse("product received!", null),
         // HttpStatus.OK);
     }
