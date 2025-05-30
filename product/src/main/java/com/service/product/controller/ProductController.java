@@ -5,6 +5,7 @@ import com.service.product.DTO.APIResponse;
 import com.service.product.model.ProductModel;
 import com.service.product.model.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.print.DocFlavor.READER;
 
 @RestController
 public class ProductController {
@@ -52,5 +55,13 @@ public class ProductController {
         Optional<ProductModel> product = this.productRepo.findById(productId);
         ProductModel isProduct = product.isPresent() ? product.get() : null;
         return ResponseEntity.ok(new APIResponse("Product sent!", isProduct));
+    }
+
+    @GetMapping("/image/{productId}")
+    private ResponseEntity<byte[]> getProductImage(@PathVariable String productId) {
+        Optional<ProductModel> product = this.productRepo.findById(productId);
+        byte[] productImage = product.isPresent() ? product.get().getImage() : null;
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).contentLength(productImage.length)
+                .body(productImage);
     }
 }
