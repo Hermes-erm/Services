@@ -61,6 +61,7 @@ public class ProductController {
     private ResponseEntity<byte[]> getProductImage(@PathVariable String productId) {
         Optional<ProductModel> product = this.productRepo.findById(productId);
         byte[] productImage = product.isPresent() ? product.get().getImage() : null;
+        System.err.println(productImage);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).contentLength(productImage.length)
                 .body(productImage);
     }
