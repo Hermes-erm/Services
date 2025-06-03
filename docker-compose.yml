@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    image: mongo:4.4
+    volumes:
+      - db_data:/data/db
+    networks:
+      - service_db
+
+  product_service:
+#    build:
+#      context: ./product
+#      dockerfile: Dockerfile
+    build: ./product
+    ports:
+      - "8080:8080"
+    environment:
+      - spring.data.mongodb.uri=mongodb://localhost:27017/products
+    networks:
+      - service_db
+
+networks:
+  service_db:
+    driver: bridge
+#    default network driver!
+
+volumes:
+  db_data:
