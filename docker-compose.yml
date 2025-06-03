@@ -3,6 +3,8 @@ version: "3.8"
 services:
   db:
     image: mongo:4.4
+    ports:
+      - "27017:27017"
     volumes:
       - db_data:/data/db
     networks:
