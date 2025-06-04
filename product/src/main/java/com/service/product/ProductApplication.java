@@ -19,7 +19,7 @@ public class ProductApplication {
     }
 
     @PostConstruct
-    public void doSome() {
+    public void configDefClass() {
         MappingMongoConverter mappingMongoConverter = applicationContext.getBean(MappingMongoConverter.class);
         mappingMongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
     }
