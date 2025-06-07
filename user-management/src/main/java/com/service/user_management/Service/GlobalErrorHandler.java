@@ -11,7 +11,7 @@ public class GlobalErrorHandler {
 
     @ExceptionHandler
     private ResponseEntity<APIResponse> handleValidationException(Exception exception) {
-//        System.out.println(exception.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new APIResponse("Error occured", exception.getMessage()));
+        System.out.println("<<<Error occurred>>> : " + exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new APIResponse("Error occurred", exception.getMessage()));
     }
 }
