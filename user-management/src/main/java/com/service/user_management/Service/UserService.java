@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+
 @Service
 //@Data
 public class UserService {
@@ -31,14 +34,13 @@ public class UserService {
     }
 
     public UserModel addNewUser(UserModel user) {
-        this.mongoTemplate.findOne();
-
+        List<UserModel> existUsers = this.repository.findByName(user.getName());
+        System.out.println(existUsers);
+        if (!existUsers.isEmpty()) return existUsers.getFirst(); // user exists!
         user.setPassword(this.encodePassword(user.getPassword()));
         UserModel updatedUser = this.repository.save(user);
         updatedUser.setPassword(null);
-//        System.out.println(updatedUser);
-        return updatedUser;
+        return null; // no user exists!
     }
 
-//    public
 }

@@ -19,7 +19,7 @@ public class WebSecurityConfig { // extends WebSec
     }
 
     @Bean
-    private BCryptPasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
