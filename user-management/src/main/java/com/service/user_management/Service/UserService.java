@@ -35,8 +35,10 @@ public class UserService {
 
     public UserModel addNewUser(UserModel user) {
         List<UserModel> existUsers = this.repository.findByName(user.getName());
-        System.out.println(existUsers);
-        if (!existUsers.isEmpty()) return existUsers.getFirst(); // user exists!
+        if (!existUsers.isEmpty()) {
+            existUsers.getFirst().setPassword(null);
+            return existUsers.getFirst(); // user exists!
+        }
         user.setPassword(this.encodePassword(user.getPassword()));
         UserModel updatedUser = this.repository.save(user);
         updatedUser.setPassword(null);
