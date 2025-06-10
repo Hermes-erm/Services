@@ -4,6 +4,7 @@ import com.service.user_management.DTO.APIResponse;
 import com.service.user_management.DTO.UserDTO;
 import com.service.user_management.Repository.UserModel;
 import com.service.user_management.Service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/auth")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public RequestBody<APIResponse> login(@RequestBody UserDTO) {
-
+    public ResponseEntity<APIResponse> login(@RequestBody UserDTO user, HttpServletResponse response) {
+        return this.userService.login(user, response);
     }
 }
