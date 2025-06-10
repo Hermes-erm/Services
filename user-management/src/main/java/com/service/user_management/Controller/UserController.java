@@ -1,6 +1,7 @@
 package com.service.user_management.Controller;
 
 import com.service.user_management.DTO.APIResponse;
+import com.service.user_management.DTO.UserDTO;
 import com.service.user_management.Repository.UserModel;
 import com.service.user_management.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,10 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<APIResponse> newUser(@RequestBody UserModel user) {
         return ResponseEntity.ok(new APIResponse("user registered successfully!", this.userService.addNewUser(user)));
+    }
+
+    @PostMapping("/login")
+    public RequestBody<APIResponse> login(@RequestBody UserDTO) {
+
     }
 }
