@@ -67,6 +67,7 @@ public class UserService {
         if (isPassMatch) {
             Cookie cookie = new Cookie("_token", this.jwtService.generateToken(user));
             cookie.setHttpOnly(true);
+//            cookie.setPath("/");
             response.addCookie(cookie);
             return this.response(HttpStatus.ACCEPTED, "User authenticated!", user);
         }
