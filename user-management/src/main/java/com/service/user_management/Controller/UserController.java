@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +27,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<APIResponse> login(@RequestBody UserDTO user, HttpServletResponse response) {
         return this.userService.login(user, response);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<APIResponse> logout(HttpServletResponse response) {
+        return ResponseEntity.ok(new APIResponse("logged-out successfully..", this.userService.logout(response)));
     }
 }

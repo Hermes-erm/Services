@@ -15,9 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
-//@Data
+// @Data
 public class UserService {
     @Autowired
     private UserRepository repository;
@@ -35,7 +34,7 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     private ResponseEntity<APIResponse> response(HttpStatus status, String message, Object data) {
-//        return new APIResponse(message, data);
+        // return new APIResponse(message, data);
         return ResponseEntity.status(status).body(new APIResponse(message, data));
     }
 
@@ -67,10 +66,17 @@ public class UserService {
         if (isPassMatch) {
             Cookie cookie = new Cookie("_token", this.jwtService.generateToken(user));
             cookie.setHttpOnly(true);
-//            cookie.setPath("/");
+            // cookie.setPath("/");
             response.addCookie(cookie);
             return this.response(HttpStatus.ACCEPTED, "User authenticated!", user);
         }
         return this.response(HttpStatus.BAD_REQUEST, "Password incorrect!", null);
+    }
+
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("_token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return null;
     }
 }
