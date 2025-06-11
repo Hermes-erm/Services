@@ -6,7 +6,7 @@ COPY . .
 RUN mvn clean package
 
 # stage 2
-FROM openjdk:18
+FROM openjdk:21
 COPY --from=build /app/target/product-0.0.1-SNAPSHOT.jar .
 EXPOSE 8080
 CMD ["java","-jar","product-0.0.1-SNAPSHOT.jar"]
