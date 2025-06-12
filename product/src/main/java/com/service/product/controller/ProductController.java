@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/inventory")
 public class ProductController {
 
     @Autowired

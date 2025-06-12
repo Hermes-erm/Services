@@ -5,7 +5,7 @@ spring:
     gateway:
       routes:
         - id: product
-          uri: http://localhost:80801
+          uri: http://localhost:8080/
           Predicates:
             - Path=/inventory/**
 server:
