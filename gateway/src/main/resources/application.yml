@@ -3,10 +3,16 @@ spring:
     name: gateway
   cloud:
     gateway:
-      routes:
-        - id: product
-          uri: http://localhost:8080/
-          Predicates:
-            - Path=/inventory/**
+      server:
+        webflux:
+          routes:
+            - id: product
+              uri: http://localhost:8080
+              predicates:
+                - Path=/inventory/**
+            - id: user-management
+              uri: http://localhost:8082
+              predicates:
+                - Path=/auth/**
 server:
   port: 8083
