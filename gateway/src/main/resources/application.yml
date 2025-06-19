@@ -6,13 +6,17 @@ spring:
       server:
         webflux:
           routes:
-            - id: product
-              uri: http://localhost:8080
-              predicates:
-                - Path=/inventory/**
             - id: user-management
-              uri: http://localhost:8082
+              uri: http://localhost:8081
               predicates:
                 - Path=/auth/**
+            - id: product
+              uri: http://localhost:8082
+              predicates:
+                - Path=/inventory/**
+            - id: cart
+              uri: http://localhost:8083
+              predicates:
+                - Path=/cart/**
 server:
   port: 8080

@@ -12,7 +12,7 @@ public class GlobalErrorHandler {
     @ExceptionHandler
     public ResponseEntity<APIResponse> handleValidationException(Exception exception) {
 //        System.out.println(exception.getMessage());
-        APIResponse response = new APIResponse("Error occured in the server", exception.getMessage());
+        APIResponse response = new APIResponse("Error occurred in the server", exception.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
