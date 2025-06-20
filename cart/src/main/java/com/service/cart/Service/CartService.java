@@ -13,20 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class CartService {
-
-    private class Utils {
-        public static int quantityOfProduct(List<Cart> products) {
-            int amt = 0;
-            return amt;
-        }
-
-        public static int isProductExist(List<Cart> products, String productId) {
-            return -1;
-        }
-    }
 
     @Autowired
     private CartRepository repository;
@@ -41,10 +29,26 @@ public class CartService {
         UserModel user = isUser.get();
         List<Cart> cartList = user.getCarts();
 
-        int ind = Utils.isProductExist(cartList, product.getProductId());
-        if (ind >= 0) cartList.set(ind, new Cart(product.getProductId(), Utils.quantityOfProduct(cartList)));
-        else cartList.add(new Cart(product.getProductId(), 0));
+        int ind = Utils.getProductPos(cartList, product.getProductId());
+        if (ind >= 0) {
+            int amt = Utils.quantityOfProduct(cartList.get(ind));
+            cartList.set(ind, new Cart(product.getProductId(), amt));
+        } else cartList.add(new Cart(product.getProductId(), 1));
+        this.repository.save(user);
 
-        return response(HttpStatus.ACCEPTED, "Cart received", cartList);
+        return response(HttpStatus.ACCEPTED, "Cart updated!", cartList);
+    }
+
+    private static class Utils {
+        public static int quantityOfProduct(Cart product) {
+            return product.getQuantity() + 1;
+        }
+
+        public static int getProductPos(List<Cart> products, String productId) {
+            if (products.isEmpty()) return -1;
+            for (int i = 0; i < products.size(); i++)
+                if (products.get(i).getProductId().equals(productId)) return i;
+            return -1;
+        }
     }
 }
