@@ -48,6 +48,18 @@ services:
     depends_on:
       - db
 
+  gateway_service:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - ./gateway/src/main/resources/application.yml
+    networks:
+      - service_db
+    depends_on:
+      - db
+
+
 networks:
   service_db:
     driver: bridge
